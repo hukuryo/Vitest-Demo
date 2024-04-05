@@ -55,3 +55,9 @@ test("mockTestFunc adds two numbers correctly", () => {
   expect(mockFn).toHaveBeenCalledWith(10, 20);
   expect(mockFn).toHaveBeenCalledTimes(2);
 });
+
+const mock = vi.fn();
+mock.mockReturnValue(42);
+mock(); // 42
+mock.mockReturnValue(43);
+mock(); // 43
