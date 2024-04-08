@@ -1,4 +1,4 @@
-import { assert, expect, test, vi } from "vitest";
+import { expect, test, vi } from "vitest";
 import { mockTestFunc } from "./mock";
 
 test("mock test1", async () => {
@@ -61,3 +61,29 @@ mock.mockReturnValue(42);
 mock(); // 42
 mock.mockReturnValue(43);
 mock(); // 43
+
+test("mockTestFunc adds two numbers correctly", () => {
+  const mockFn = vi.fn(mockTestFunc);
+
+  const result1 = mockFn(2, 3);
+  expect(result1).toBe(5);
+  expect(mockFn).toHaveBeenCalledWith(2, 3);
+  expect(mockFn).toHaveBeenCalledTimes(1);
+
+  const result2 = mockFn(10, 20);
+  expect(result2).toBe(30);
+  expect(mockFn).toHaveBeenCalledWith(10, 20);
+  expect(mockFn).toHaveBeenCalledTimes(2);
+});
+
+test("mockTestFunc returns undefined for non-number inputs", () => {
+  const mockFn = vi.fn(mockTestFunc);
+
+  const result1 = mockFn("a" as unknown as number, 3);
+  expect(result1).toBeUndefined();
+  expect(mockFn).toHaveBeenCalledWith("a" as unknown as number, 3);
+
+  const result2 = mockFn(10, false as unknown as number);
+  expect(result2).toBeUndefined();
+  expect(mockFn).toHaveBeenCalledWith(10, false as unknown as number);
+});
