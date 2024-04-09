@@ -1,6 +1,15 @@
 import { expect, test, vi } from "vitest";
 import { mockTestFunc } from "./mock";
 
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports["toUpperCase 1"] = '"FOOBAR"';
+
+it("render basic", async () => {
+  const result = renderHTML(h("div", { class: "foo" }));
+  await expect(result).toMatchFileSnapshot("./test/basic.output.html");
+});
+
 test("mock test1", async () => {
   const myMockFn = vi.fn(() => "original");
 
